@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-M8BRHMRT');</script>
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+    <!-- End Google Tag Manager -->
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -301,8 +303,11 @@
     </style>
 </head>
 <body>
-     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8BRHMRT"
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <header>
         <nav>
             <div class="logo">SHOTIFY</div>
@@ -428,54 +433,99 @@
     </footer>
 
     <script>
+        // GTM Event Tracking
+        function pushGTMEvent(eventName, eventData) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': eventName,
+                ...eventData
+            });
+        }
+
+        // Contact Form Submission
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            <script>
-    // GTM Event Tracking
-    function pushGTMEvent(eventName, eventData) {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            'event': eventName,
-            ...eventData
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Store name in sessionStorage for thank you page
+            sessionStorage.setItem('userName', formData.name);
+            
+            // Push event to GTM
+            pushGTMEvent('form_submission', {
+                'form_name': 'contact_form',
+                'form_location': 'contact_section'
+            });
+            
+            // Redirect to thank you page
+            window.location.href = 'thankyou.html';
         });
-    }
 
-    // Contact Form Submission
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value
-        };
-        
-        // Store name in sessionStorage for thank you page
-        sessionStorage.setItem('userName', formData.name);
-        
-        // Push event to GTM
-        pushGTMEvent('form_submission', {
-            'form_name': 'contact_form',
-            'form_location': 'contact_section'
-        });
-        
-        // Redirect to thank you page
-        window.location.href = 'thankyou.html';
-    });
-
-    // Smooth Scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+        // CTA Button Click Tracking
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                pushGTMEvent('cta_click', {
+                    'button_text': this.textContent,
+                    'button_location': 'hero_section'
                 });
-            }
+            });
         });
-    });
-</script>
+
+        // Service Card Click Tracking
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const serviceName = this.querySelector('h3').textContent;
+                pushGTMEvent('service_view', {
+                    'service_name': serviceName
+                });
+            });
+        });
+
+        // Portfolio Item Click Tracking
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const portfolioTitle = this.querySelector('h3').textContent;
+                pushGTMEvent('portfolio_view', {
+                    'portfolio_title': portfolioTitle
+                });
+            });
+        });
+
+        // Navigation Click Tracking
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                pushGTMEvent('navigation_click', {
+                    'link_text': this.textContent,
+                    'link_destination': this.getAttribute('href')
+                });
+            });
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Page View Tracking
+        window.addEventListener('load', function() {
+            pushGTMEvent('page_view', {
+                'page_title': document.title,
+                'page_location': window.location.href
+            });
+        });
+    </script>
 </body>
 </html>
